@@ -40,7 +40,7 @@
     <script>
         function addTopic() {
             var topic = document.getElementById('topic').value;
-            fetch('https://script.google.com/macros/s/AKfycbxT5hRcA-WUaWisPoTliI4eFkim7g_SysOUzll4XRZ17X-aoFO9KIqcOHQK0DDHBqsBNg/exec?action=addNewTopic&topicName=' + encodeURIComponent(topic))
+            fetch('https://script.google.com/macros/s/AKfycbzJQEmNxvYCwsHu1B1NnFjsDhtKdzt6F5vJoD_l8KeOk5oI8YnL7QHQpZfW33LI7P6_gA/exec' + encodeURIComponent(topic))
                 .then(response => response.text())
                 .then(data => {
                     if (data.includes('Error')) {
@@ -53,7 +53,7 @@
 
         function searchInfo() {
             var keyword = document.getElementById('search').value;
-            fetch('https://script.google.com/macros/s/AKfycbxT5hRcA-WUaWisPoTliI4eFkim7g_SysOUzll4XRZ17X-aoFO9KIqcOHQK0DDHBqsBNg/exec?action=searchInformation&keyword=' + encodeURIComponent(keyword))
+            fetch('https://script.google.com/macros/s/AKfycbzJQEmNxvYCwsHu1B1NnFjsDhtKdzt6F5vJoD_l8KeOk5oI8YnL7QHQpZfW33LI7P6_gA/exec' + encodeURIComponent(keyword))
                 .then(response => response.json())
                 .then(data => displayResults(data));
         }
@@ -70,7 +70,7 @@
             var topic = prompt('Ingrese el nombre del tema al que quiere añadir la pregunta y respuesta:');
             var question = document.getElementById('question').value;
             var answer = document.getElementById('answer').value;
-            fetch('https://script.google.com/macros/s/AKfycbxT5hRcA-WUaWisPoTliI4eFkim7g_SysOUzll4XRZ17X-aoFO9KIqcOHQK0DDHBqsBNg/exec?action=addQuestion&topicName=' + encodeURIComponent(topic) + '&question=' + encodeURIComponent(question) + '&answer=' + encodeURIComponent(answer))
+            fetch('https://script.google.com/macros/s/AKfycbzJQEmNxvYCwsHu1B1NnFjsDhtKdzt6F5vJoD_l8KeOk5oI8YnL7QHQpZfW33LI7P6_gA/exec' + encodeURIComponent(topic) + '&question=' + encodeURIComponent(question) + '&answer=' + encodeURIComponent(answer))
                 .then(response => response.text())
                 .then(data => {
                     if (data.includes('Error')) {
