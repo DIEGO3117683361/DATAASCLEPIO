@@ -3,83 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Organizador de Estudio</title>
+    <title>Registro de Datos</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f0f0f0; }
-        .container { width: 80%; margin: auto; padding: 20px; background-color: #fff; border-radius: 8px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; }
-        input, textarea { width: 100%; padding: 8px; margin-top: 5px; }
-        button { padding: 10px 15px; background-color: #28a745; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
-        button:hover { background-color: #218838; }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f0f0f0;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            animation: fadeIn 1s ease-out;
+        }
+        input[type="text"], textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 18px;
+            background: #0a0a0a;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .success-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        .success-message {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .success-button {
+            padding: 10px;
+            border: none;
+            border-radius: 20px;
+            background: #0a0a0a;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Organizador de Estudio</h1>
-        <div class="form-group">
-            <label for="topic">Nuevo Tema</label>
-            <input type="text" id="topic" placeholder="Ingrese el nombre del nuevo tema">
-            <button onclick="addTopic()">Añadir Tema</button>
-        </div>
-        <div class="form-group">
-            <label for="search">Buscar</label>
-            <input type="text" id="search" placeholder="Buscar temas, preguntas o respuestas">
-            <button onclick="searchInfo()">Buscar</button>
-        </div>
-        <div class="form-group">
-            <label for="question">Pregunta</label>
-            <textarea id="question" placeholder="Ingrese la pregunta"></textarea>
-            <label for="answer">Respuesta</label>
-            <textarea id="answer" placeholder="Ingrese la respuesta"></textarea>
-            <button onclick="addQA()">Añadir Pregunta y Respuesta</button>
-        </div>
-        <div id="results"></div>
+        <h2>C U E S T I O N E S</h2>
+        <input type="text" id="id" placeholder="ID de la Cuestión" required>
+        <input type="text" id="title" placeholder="Título de la Cuestión" required>
+        <textarea id="content" placeholder="Contenido de la Cuestión" rows="4" required></textarea>
+        <input type="text" id="bibliography" placeholder="Bibliografía" required>
+        <input type="text" id="notes" placeholder="Notas" required>
+        <button id="submit_button">Guardar</button>
+        <div class="error" id="error_message"></div>
     </div>
-
+    <div class="success-screen" id="success_screen">
+        <div class="success-message" id="success_message"></div>
+        <button class="success-button" onclick="window.location.href='/'">Volver al Inicio</button>
+    </div>
     <script>
-        function addTopic() {
-            var topic = document.getElementById('topic').value;
-            fetch('https://script.google.com/macros/s/AKfycbzJQEmNxvYCwsHu1B1NnFjsDhtKdzt6F5vJoD_l8KeOk5oI8YnL7QHQpZfW33LI7P6_gA/exec' + encodeURIComponent(topic))
-                .then(response => response.text())
-                .then(data => {
-                    if (data.includes('Error')) {
-                        alert(data);
-                    } else {
-                        alert('Tema añadido: ' + topic);
-                    }
-                });
-        }
+        document.getElementById('submit_button').addEventListener('click', async function() {
+            const id = document.getElementById('id').value;
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('content').value;
+            const bibliography = document.getElementById('bibliography').value;
+            const notes = document.getElementById('notes').value;
+            const errorMessage = document.getElementById('error_message');
 
-        function searchInfo() {
-            var keyword = document.getElementById('search').value;
-            fetch('https://script.google.com/macros/s/AKfycbzJQEmNxvYCwsHu1B1NnFjsDhtKdzt6F5vJoD_l8KeOk5oI8YnL7QHQpZfW33LI7P6_gA/exec' + encodeURIComponent(keyword))
-                .then(response => response.json())
-                .then(data => displayResults(data));
-        }
-
-        function displayResults(results) {
-            var output = '<h2>Resultados de la búsqueda</h2>';
-            results.forEach(function(result) {
-                output += '<div><h3>Tema: ' + result.topic + '</h3><p><strong>Pregunta:</strong> ' + result.question + '</p><p><strong>Respuesta:</strong> ' + result.answer + '</p></div>';
+            const response = await fetch('https://script.google.com/macros/s/AKfycbzK4DwPetXUY2TZNFyRCDOu8N3hoLpqVwuYiOKsuco3BQEHUH8Ad5LXkt5_sr0827AVRQ/exec', {
+                method: 'POST',
+                body: JSON.stringify({ id, title, content, bibliography, notes }),
             });
-            document.getElementById('results').innerHTML = output;
-        }
 
-        function addQA() {
-            var topic = prompt('Ingrese el nombre del tema al que quiere añadir la pregunta y respuesta:');
-            var question = document.getElementById('question').value;
-            var answer = document.getElementById('answer').value;
-            fetch('https://script.google.com/macros/s/AKfycbzJQEmNxvYCwsHu1B1NnFjsDhtKdzt6F5vJoD_l8KeOk5oI8YnL7QHQpZfW33LI7P6_gA/exec' + encodeURIComponent(topic) + '&question=' + encodeURIComponent(question) + '&answer=' + encodeURIComponent(answer))
-                .then(response => response.text())
-                .then(data => {
-                    if (data.includes('Error')) {
-                        alert(data);
-                    } else {
-                        alert('Pregunta y respuesta añadidas al tema: ' + topic);
-                    }
-                });
-        }
+            if (response.ok) {
+                document.querySelector('.container').style.display = 'none';
+                const successScreen = document.getElementById('success_screen');
+                const successMessage = document.getElementById('success_message');
+                successMessage.textContent = 'La cuestión se guardó con éxito, recuerde la ID  de la cuestión para revisarla de nuevo.';
+                successScreen.style.display = 'flex';
+            } else {
+                errorMessage.textContent = 'Hubo un error al guardar los datos.';
+            }
+        });
     </script>
 </body>
 </html>
