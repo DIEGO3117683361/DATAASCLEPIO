@@ -85,7 +85,7 @@
         <textarea id="content" placeholder="Contenido de la Cuestión" rows="4" required></textarea>
         <input type="text" id="bibliography" placeholder="Bibliografía" required>
         <input type="text" id="notes" placeholder="Notas" required>
-        <button id="submit_button">Guardar</button>
+        <button id="submit_button">Lo logré</button>
         <div class="error" id="error_message"></div>
     </div>
     <div class="success-screen" id="success_screen">
@@ -110,7 +110,7 @@
                 document.querySelector('.container').style.display = 'none';
                 const successScreen = document.getElementById('success_screen');
                 const successMessage = document.getElementById('success_message');
-                successMessage.textContent = 'La cuestión se guardó con éxito, recuerde la ID  de la cuestión para revisarla de nuevo.';
+                successMessage.textContent = 'Felicidades por resolver la cuesión, recuerde la ID  de la cuestión para revisarla de nuevo.';
                 successScreen.style.display = 'flex';
             } else {
                 errorMessage.textContent = 'Hubo un error al guardar los datos.';
